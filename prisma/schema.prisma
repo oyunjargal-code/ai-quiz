@@ -1,0 +1,31 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client-js"
+  // output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Article {
+  id        String     @id @default(cuid())
+  title     String
+  content   String     @db.Text
+  summary   String     @db.Text
+  questions Question[]
+  createdAt DateTime   @default(now())
+}
+
+model Question {
+  id        String   @id @default(cuid())
+  articleId String
+  question  String
+  options   String[] // Хувилбаруудыг массив хэлбэрээр хадгална
+  answer    String
+  article   Article  @relation(fields: [articleId], references: [id], onDelete: Cascade)
+}
