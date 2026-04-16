@@ -17,7 +17,7 @@ export async function POST(req: Request) {
     const { title, content } = await req.json();
 
     // 1. AI-аас дата авах хэсэг
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+    const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
     const prompt = `
       Чи бол багш. Дараах текстийг уншаад:
       Гарчиг: ${title}
@@ -36,24 +36,26 @@ export async function POST(req: Request) {
     const jsonEnd = cleanText.lastIndexOf("}") + 1;
     const jsonData = JSON.parse(cleanText.substring(jsonStart, jsonEnd));
 
+    console.log(jsonData);
+
     // 2. Өгөгдлийн санд хадгалах хэсэг
-    const savedArticle = await prisma.article.create({
-      data: {
-        title: title,
-        content: content,
-        summary: jsonData.summary,
-        questions: {
-          create: jsonData.questions.map((q: any) => ({
-            question: q.question,
-            options: q.options,
-            answer: q.answer,
-          })),
-        },
-      },
-      include: {
-        questions: true,
-      },
-    });
+    // const savedArticle = await prisma.article.create({
+    //   data: {
+    //     title: title,
+    //     content: content,
+    //     summary: jsonData.summary,
+    //     questions: {
+    //       create: jsonData.questions.map((q: any) => ({
+    //         question: q.question,
+    //         options: q.options,
+    //         answer: q.answer,
+    //       })),
+    //     },
+    //   },
+    //   include: {
+    //     questions: true,
+    //   },
+    // });
 
     return NextResponse.json(savedArticle);
   } catch (error) {
