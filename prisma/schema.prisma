@@ -5,8 +5,12 @@
 
 generator client {
   provider = "prisma-client-js"
-  // output   = "../app/generated/prisma"
+  output   = "../app/generated/prisma"
 }
+
+// datasource db {
+//   provider = "postgresql"
+// }
 
 datasource db {
   provider = "postgresql"
@@ -29,3 +33,8 @@ model Question {
   answer    String
   article   Article  @relation(fields: [articleId], references: [id], onDelete: Cascade)
 }
+
+// datasource db {
+//   provider = "sqlite"
+//   // url      = "file:./dev.db"
+// }
