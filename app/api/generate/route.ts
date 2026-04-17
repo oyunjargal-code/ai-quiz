@@ -9,19 +9,35 @@ const genAI = new GoogleGenerativeAI(
 export async function POST(req: Request) {
   try {
     const { title, content } = await req.json();
-    const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
+    const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash-lite" });
 
     // 1. AI-аас Summary хүсэх
     const prompt = `Дараах текстийн товч утгыг (summary) монголоор гаргаж өгнө үү: ${content}`;
     const result = await model.generateContent(prompt);
     const summaryText = result.response.text();
 
+    // 🔥 ХАМГААЛАЛТ: Summary хоосон бол алдаа буцаана
+    if (!summaryText || summaryText.length < 10) {
+      return NextResponse.json(
+        { error: "AI товч утга үүсгэж чадсангүй. Та дахин оролдоно уу." },
+        { status: 500 },
+      );
+    }
+
     // 2. DATABASE-д Хадгалах (Энэ бол гол зангилаа!)
+    // const newArticle = await db.article.create({
+    //   data: {
+    //     title: title,
+    //     content: content,
+    //     summary: summaryText,
+    //   },
+    // });
+
     const newArticle = await db.article.create({
       data: {
         title: title,
         content: content,
-        summary: summaryText,
+        summary: summaryText.trim(), // Илүүдэл зайг арилгах
       },
     });
 

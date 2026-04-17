@@ -21,7 +21,7 @@ model Article {
   title     String
   content   String     @db.Text
   summary   String     @db.Text
-  questions Question[]
+  questions Question[] // Энэ нь жинхэнэ квизүүд хадгалагдах хэсэг
   createdAt DateTime   @default(now())
 }
 
@@ -29,7 +29,7 @@ model Question {
   id        String   @id @default(cuid())
   articleId String
   question  String
-  options   String[] // Хувилбаруудыг массив хэлбэрээр хадгална
+  options   String[]
   answer    String
   article   Article  @relation(fields: [articleId], references: [id], onDelete: Cascade)
 }
