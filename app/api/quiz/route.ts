@@ -19,7 +19,6 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Summary олдсонгүй" }, { status: 404 });
     }
 
-    // 🔥 МОДЕЛИЙН НЭРИЙГ ЗАСАВ: gemini-1.5-flash бол хамгийн тогтвортой нь
     const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash-lite" });
 
     // 2. AI-д зориулсан заавар

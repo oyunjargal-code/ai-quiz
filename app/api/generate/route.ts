@@ -25,13 +25,6 @@ export async function POST(req: Request) {
     }
 
     // 2. DATABASE-д Хадгалах (Энэ бол гол зангилаа!)
-    // const newArticle = await db.article.create({
-    //   data: {
-    //     title: title,
-    //     content: content,
-    //     summary: summaryText,
-    //   },
-    // });
 
     const newArticle = await db.article.create({
       data: {
