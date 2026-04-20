@@ -41,6 +41,9 @@ export default function QuizGenerator() {
       console.error("Дата татахад алдаа:", error);
     }
   };
+  const onClick = () => {
+    (setIsQuizStarted(false), setIsQuizCompleted(false));
+  };
 
   useEffect(() => {
     fetchArticles();
@@ -296,9 +299,7 @@ export default function QuizGenerator() {
               </div>
             </div>
             <button
-              onClick={() =>
-                setIsQuizStarted(false) || setIsQuizCompleted(false)
-              }
+              onClick={onClick}
               className="w-full bg-black text-white py-4 rounded-xl font-bold"
             >
               Save and back
